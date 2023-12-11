@@ -1,155 +1,29 @@
+
 # MapUp - Python Assessment
 
 ## Overview
 
-This assessment evaluates your Python skills in following aspects - pandas data wrangling, API response retrieval, async programming, and JSON response manipulation. Your performance will be assessed on correctness against predefined test cases, execution runtime efficiency, and adherence to Python best practices.
-
-The task involves constructing a robust data pipeline with three distinct processes, each executed by a dedicated Python script. The output of each process serves as the input for the subsequent one, creating a well-connected sequence of data processing steps.
-
-This assessment provides an opportunity to showcase your Python skills and your capability to design effective and efficient data workflows. Best of luck!
-
-## Process 1: Extracting trips from GPS Data
-
-In this task, you are required to develop a Python script named `process1.py` that processes GPS data of multiple vehicles stored in a Parquet file. The objective is to extract information related to individual trips and store the results in CSV files. The Parquet file contains the following columns:
-
-- **unit**: Unique identification of the vehicle.
-- **latitude**: GPS latitude in degrees.
-- **longitude**: GPS longitude in degrees.
-- **timestamp**: Timestamp string in RFC 3301 format.
-
-For each unique unit in the Parquet file, you need to break down the data into trip-specific CSV files. The script should use the following logic to identify trips:
-
-- Whenever the time difference between consecutive data points is more than 7 hours, a new trip begins.
-
-The naming convention for trip CSV files is as follows:
-
-- CSV files should be named using the pattern `{unit}_{trip_number}.csv`.
-- The trip numbering starts from 0 and increments for each new trip.
-
-Each CSV file should contain the following columns:
-- **latitude**: GPS latitude in degrees.
-- **longitude**: GPS longitude in degrees.
-- **timestamp**: Timestamp string in RFC 3301 format.
-
-### Script Usage:
-
-The Python script (`process1.py`) should be executed with the following command-line arguments:
-
-- `--to_process`: Path to the Parquet file to be processed.
-- `--output_dir`: The folder to store the resulting CSV files.
-
-### Example Execution:
-
-```bash
-python3 process1.py --to_process /test/test.parquet --output_dir /output/process1
-```
-
-## Process 2: Uploading GPS tracks to TollGuru API
-
-In the second process, your task is to develop a Python script to interact with the TollGuru API. The `gps-tracks-csv-upload` endpoint of the TollGuru API takes a vehicle as a parameter and expects a binary CSV file as input. The API responds with a JSON containing toll information.
-
-### API Key and URL Configuration
-
-To begin, sign up on [TollGuru](https://tollguru.com/get-api-key) to obtain your API KEY. Both the TOLLGURU_API_KEY and the TOLLGURU_API_URL should be stored in a `.env` file, and the `python-dotenv` module should be used to load these variables.
-
-### API Parameters
-
-When sending requests to the `gps-tracks-csv-upload` endpoint, use the following parameters:
-- vehicleType: 5AxlesTruck
-- mapProvider: osrm
-
-### Sample Python Request
-
-Here is an example python request illustrating how to send a request with the specified parameters:
-
-```bash
-
-import requests
-
-url = 'https://apis.tollguru.com/toll/v2/gps-tracks-csv-upload?mapProvider=osrm&vehicleType=5AxlesTruck'
-file_path = '/path/to/file.csv'
-headers = {'x-api-key': 'YOUR_TRIAL_API_KEY', 'Content-Type': 'text/csv'}
-
-with open(file_path, 'rb') as file:
-    response = requests.post(url, data=file, headers=headers)
-```
-Your Python script should concurrently send CSV files obtained from Process1 to the TollGuru API, using the same file names for storage of the JSON responses.
-
-### Script Usage:
-
-The Python script (`process2.py`) should be executed with the following command-line arguments:
-
-- `--to_process`: Path to the CSV folder.
-- `--output_dir`: The folder where the resulting JSON files will be stored.
-
-### Example Execution:
-
-```bash
-python3 process2.py --to_process /output/process1 --output_dir /output/process2
-```
-
-## Process 3: Extracting Toll Information from JSON Files
-
-For the third process, you are assigned to develop a Python script that processes toll information stored in multiple JSON files. Each JSON file represents toll information for a specific trip, and the script needs to handle all files within the specified input directory.
-
-### Data Extraction and CSV Transformation
-
-The script should perform the following tasks for each trip's toll information:
-- Extract relevant data from the JSON files.
-- Transform the data into a CSV format with the following headers:
-
-  - `unit`: Unique identification number for the vehicle.
-  - `trip_id`: File name of each trip.
-  - `toll_loc_id_start`: Toll ID for the start toll.
-  - `toll_loc_id_end`: Toll ID for the end toll.
-  - `toll_loc_name_start`: Name for the start toll.
-  - `toll_loc_name_end`: Name for the end toll.
-  - `toll_system_type`: Type of toll.
-  - `entry_time`: Time of toll entry.
-  - `exit_time`: Time of toll exit.
-  - `tag_cost`: Tag cost of the toll.
-  - `cash_cost`: Cash cost of the toll.
-  - `license_plate_cost`: License plate cost of the toll.
-
-### CSV Output
-
-The script should consolidate the processed data and save the results in a single CSV file with file name `transformed_data.csv`
-
-### Note
-
-Handle cases where values might be null in the JSON files by leaving the corresponding fields empty in the CSV.
-
-If there are no tolls in a route, you can ignore those files
-
-Ensure that the script can efficiently process a large number of JSON files in the specified input directory.
-
-### Script Usage:
-
-The Python script (`process3.py`) should be executed with the following command-line arguments:
-
-- `--to_process`: Path to the JSON responses folder.
-- `--output_dir`: The folder where the final `transformed_data.csv` will be stored.
-
-
-### Example Execution:
-
-```bash
-python3 process3.py --to_process /output/process2 --output_dir /output/process3
-```
+This assessment is designed to evaluate your proficiency in Python programming, data manipulation, and analysis, as well as your ability to work with Excel. Below, you'll find details on each component of the assessment and the tasks you should complete. Best of luck!
 
 
 ## Important Points to Note:
-
-- All scripts must be developed in accordance with the specified rules.
-- The assessment pipeline will be tested using our internal set of test cases.
-- Throughput times and result validation will be key factors in the evaluation process.
-- Incorporate unit tests into your scripts for extra credits.
+- The assessment will be tested using our internal set of test cases. Scripts must be developed in accordance with the template shared. Please use the following template to create your scripts:
+    - 📂 templates
+        - 📄 python_task_1.py
+        - 📄 python_task_2.py
+- We've clearly outlined the interfaces of our functions, specifying the input and output data types with distinct signatures.
 - Any deviation especially in naming conventions and providing arguments will impact the correct assessment of your work
 
 
+## Submission structure
+There should be a folder named `submission` in the root of your repository. This folder should contain the following:
+- 📂 submissions
+  - 📄 python_task_1.py
+  - 📄 python_task_2.py
+  - 📄 excel_assessment.xlsm
+
 ## Result Submission:
-- We have provided a sample parquet file containing two trips and the pipeline results in sample_data folder.
-- Data that you need to work with is `evaluation_data/input/raw_data.parquet`. Store your process outputs in the structure mentioned below
+- Data that you need to work with is in the folder `datasets`. Store your process outputs in the structure mentioned below
 - Clone the provided GitHub repository.
 - Add the following members as collaborators to your repo
     - `venkateshn@mapup.ai`
@@ -159,42 +33,114 @@ python3 process3.py --to_process /output/process2 --output_dir /output/process3
 - Submit the link to your repository via the provided Google Form for evaluation.
 
 
-## Submission structure
-- 📂 your_cloned_repo
-  - 📄 process1.py
-  - 📄 process2.py
-  - 📄 process3.py
-  - 📄 excel-assessment.xlsm
-  - .env
-  - 📂 evaluation_data
-    - 📂 input
-        - 📄 raw_data.parquet
-    - 📂 output  
-      - 📂 process1
-        - 📄 output_file1.csv
-        - 📄 output_file2.csv
-        - ...
-      - 📂 process2
-        - 📄 output_file1.json
-        - 📄 output_file2.json
-        - ...
-      - 📂 process3
-        - 📄 transformed_data.csv
-  - 📂 sample_data
-  - .requirements.txt
-
 ## MapUp - Excel Assessment
 
-You have to submit an excel assessment along with your previous task. This evaluation tests your proficiency in Conditional Formatting, Excel Formulae, and Data Manipulation
+You have to submit an excel assessment along with your python task. This evaluation tests your proficiency in Conditional Formatting, Excel Formulae, and Data Manipulation
 
-### Instructions
 
-1. Download the Excel assessment file (excel-assessment.xlsm) from your cloned repository.
-2. Complete the assessment tasks as per the instructions provided within the spreadsheet.
+# Python Task 1
 
-## Submission
+## Question 1: Car Matrix Generation
+Under the function named `generate_car_matrix` write a logic that takes the `dataset-1.csv` as a DataFrame. Return a new DataFrame that follows the following rules:
+- values from `id_2` as columns
+- values from `id_1` as index
+- dataframe should have values from `car` column
+- diagonal values should be 0.
 
-1. Upload the solved Excel file to your repository.
-2. Submit the link to your repository via the provided Google Form for evaluation
+Sample result dataframe:\
+ ![Task 1 Question 1](readme_images/task1-q1.png)
 
-We appreciate your attention to detail and commitment to following the guidelines. Good luck with your assessment!
+
+## Question 2: Car Type Count Calculation
+Create a Python function named `get_type_count` that takes the `dataset-1.csv` as a DataFrame. Add a new categorical column `car_type` based on values of the column `car`:
+- `low` for values less than or equal to 15,
+- `medium` for values greater than 15 and less than or equal to 25,
+- `high` for values greater than 25.
+
+Calculate the count of occurrences for each `car_type` category and return the result as a dictionary. Sort the dictionary alphabetically based on keys.
+
+## Question 3: Bus Count Index Retrieval
+
+Create a Python function named `get_bus_indexes` that takes the `dataset-1.csv` as a DataFrame. The function should identify and return the indices as a list (sorted in ascending order) where the `bus` values are greater than twice the mean value of the `bus` column in the DataFrame.
+
+## Question 4: Route Filtering
+
+Create a Python function named `filter_routes` that takes the `dataset-1.csv` as a DataFrame. The function should filter and return a list of values from the column `route` where the average value of the `truck` column is greater than 7.
+
+## Question 5: Matrix Value Modification
+
+Create a Python function named `multiply_matrix` that takes the resulting DataFrame from Question 1, as input and modifies each value according to the following logic:
+- If a value in the DataFrame is greater than 20, multiply those values by 0.75,
+- If a value is 20 or less, multiply those values by 1.25.
+
+The function should return the modified DataFrame which has values rounded to 1 decimal place.
+
+Sample result dataframe:\
+ ![Task 1 Question 5](readme_images/task1-q5.png)
+
+## Question 6: Time Check
+
+You are given a dataset, `dataset-2.csv`, containing columns `id`, `id_2`, and timestamp (`startDay`, `startTime`, `endDay`, `endTime`). The goal is to verify the completeness of the time data by checking whether the timestamps for each unique (`id`, `id_2`) pair cover a full 24-hour period (from 12:00:00 AM to 11:59:59 PM) and span all 7 days of the week (from Monday to Sunday).
+
+Create a function that accepts `dataset-2.csv` as a DataFrame and returns a boolean series that indicates if each (`id`, `id_2`) pair has incorrect timestamps. The boolean series must have multi-index (`id`, `id_2`).
+
+
+# Python Task 2 
+
+## Question 1: Distance Matrix Calculation
+
+Create a function named `calculate_distance_matrix` that takes the `dataset-3.csv` as input and generates a DataFrame representing distances between IDs. 
+
+The resulting DataFrame should have cumulative distances along known routes, with diagonal values set to 0. If distances between toll locations A to B and B to C are known, then the distance from A to C should be the sum of these distances. Ensure the matrix is symmetric, accounting for bidirectional distances between toll locations (i.e. A to B is equal to B to A). 
+
+Sample result dataframe:\
+ ![Task 2 Question 1](readme_images/task2-q1.png)
+
+## Question 2: Unroll Distance Matrix
+
+Create a function `unroll_distance_matrix` that takes the DataFrame created in Question 1. The resulting DataFrame should have three columns: columns `id_start`, `id_end`, and `distance`.
+
+All the combinations except for same `id_start` to `id_end` must be present in the rows with their distance values from the input DataFrame.
+
+## Question 3: Finding IDs within Percentage Threshold
+
+Create a function `find_ids_within_ten_percentage_threshold` that takes the DataFrame created in Question 2 and a reference value from the `id_start` column as an integer.
+
+Calculate average distance for the reference value given as an input and return a sorted list of values from `id_start` column which lie within 10% (including ceiling and floor) of the reference value's average.
+
+## Question 4: Calculate Toll Rate
+
+Create a function `calculate_toll_rate` that takes the DataFrame created in Question 2 as input and calculates toll rates based on vehicle types. 
+
+The resulting DataFrame should add 5 columns to the input DataFrame: `moto`, `car`, `rv`, `bus`, and `truck` with their respective rate coefficients. The toll rates should be calculated by multiplying the distance with the given rate coefficients for each vehicle type: 
+- 0.8 for `moto`
+- 1.2 for `car`
+- 1.5 for `rv`
+- 2.2 for `bus`
+- 3.6 for `truck`
+
+Sample result dataframe:\
+ ![Task 2 Question 4](readme_images/task2-q4.png)
+
+## Question 5: Calculate Time-Based Toll Rates
+
+Create a function named `calculate_time_based_toll_rates` that takes the DataFrame created in Question 3 as input and calculates toll rates for different time intervals within a day. 
+
+The resulting DataFrame should have these five columns added to the input: start_day, start_time, end_day, and end_time.
+- `start_day`, `end_day` must be strings with day values (from Monday to Sunday in proper case)
+- `start_time` and `end_time` must be of type datetime.time() with the values from time range given below.
+
+Modify the values of vehicle columns according to the following time ranges:
+
+**Weekdays (Monday - Friday):**
+- From 00:00:00 to 10:00:00: Apply a discount factor of 0.8
+- From 10:00:00 to 18:00:00: Apply a discount factor of 1.2
+- From 18:00:00 to 23:59:59: Apply a discount factor of 0.8
+
+**Weekends (Saturday and Sunday):**
+- Apply a constant discount factor of 0.7 for all times.
+
+For each unique (`id_start`, `id_end`) pair, cover a full 24-hour period (from 12:00:00 AM to 11:59:59 PM) and span all 7 days of the week (from Monday to Sunday).
+
+Sample result dataframe:\
+ ![Task 2 Question 5](readme_images/task2-q5.png)
